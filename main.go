@@ -244,6 +244,10 @@ func main() {
 
 	// Delete DO records not present in the zone.
 	for rec := range toDelete {
+		if rec.Type == "SOA" {
+			fmt.Printf("Skipping SOA\n")
+			continue
+		}
 		fmt.Printf("Deleting %+v\n", rec)
 		_, err = client.Domains.DeleteRecord(context.TODO(), string(zoneName), rec.ID)
 		bailIfError(err)
